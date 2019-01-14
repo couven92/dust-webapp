@@ -143,7 +143,11 @@ export default {
     async poll () {
       try {
         let response = await fetch(this.endpoint)
+        if (!response.ok)
+          return
         let { data } = await response.json()
+        if (typeof data === 'undefined' || !data)
+          return
         data.sort((a, b) => {
           let aStartTime = moment(a.start_time)
           let bStartTime = moment(b.start_time)
@@ -177,7 +181,11 @@ export default {
           return
         }
         let response = await fetch(coverEndpointUrl)
+        if (!response.ok)
+          return
         let { cover } = await response.json()
+        if (typeof cover === 'undefined' || !cover)
+          return
         this.nextEventCover = cover.source
       } catch (e) {
         // eslint-disable-next-line
